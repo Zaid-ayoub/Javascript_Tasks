@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Score Tracker</title>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <h1>Score Tracker</h1>
+    <div>
+        <label for="name">Name:</label>
+        <input type="text" id="name">
+        <label for="score">Score:</label>
+        <input type="number" id="score" min="0" max="100">
+        <button id="addScoreButton">Add Score</button>
+        <button id="displayScoresButton">Display Scores</button>
+    </div>
+    
+    <div id="results"></div>
+    <table id="scores_table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Score</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+        </tbody>
+    </table>
+
+    <script>
+        let names = ['Zaid', 'Hussam', 'Ayyoub', 'Ahmad'];
+        let scores = [85, 92, 78, 90];
+
+        window.onload = function() {
+            document.getElementById('addScoreButton').onclick = addScore;
+            document.getElementById('displayScoresButton').onclick = displayScores;
+            focusOnNameField();
+        };
+
+        function focusOnNameField() {
+            document.getElementById('name').focus();
+        }
+
+        function displayResults() {
+            const total = scores.reduce((acc, score) => acc + score, 0);
+            const average = (total / scores.length).toFixed(2);
+            const highest = Math.max(...scores);
+
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = `
+                <h2>Results</h2>
+                <p>Average Score: ${average}</p>
+                <p>Highest Score: ${highest}</p>
+            `;
+        }
+
+        function displayScores() {
+            const tableBody = document.getElementById('scores_table').getElementsByTagName('tbody')[0];
+            tableBody.innerHTML = ''; 
+
+            names.forEach((name, index) => {
+                const row = tableBody.insertRow();
+                const cellName = row.insertCell(0);
+                const cellScore = row.insertCell(1);
+                cellName.innerText = name;
+                cellScore.innerText = scores[index];
+            });
+
+            displayResults(); 
+        }
+
+        function addScore() {
+            const nameInput = document.getElementById('name');
+            const scoreInput = document.getElementById('score');
+            const name = nameInput.value.trim();
+            const score = parseInt(scoreInput.value, 10);
+
+            if (name === '' || isNaN(score) || score < 0 || score > 100) {
+                alert("You must enter a name and a valid score");
+                return; 
+            }
+
+            names.push(name);
+            scores.push(score);
+            nameInput.value = ''; 
+            scoreInput.value = ''; 
+            focusOnNameField(); 
+        }
+    </script>
+</body>
+</html>

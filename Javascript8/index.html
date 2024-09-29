@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Manipulation</title>
+    <style>
+        .highlight {
+            background-color: yellow;
+        }
+    </style>
+</head>
+<body>
+    <h1>Text Manipulation Example</h1>
+    <p id="textParagraph">
+        This is an example paragraph that contains several long words such as "extraordinary" and "unbelievable". 
+        Each sentence will be displayed on a new line after splitting them appropriately.
+    </p>
+    <div id="wordCount"></div>
+
+    <script>
+        const paragraph = document.getElementById('textParagraph');
+        const wordCountDiv = document.getElementById('wordCount');
+        
+        const text = paragraph.innerText;
+
+        const words = text.split(' ').map(word => {
+            if (word.length > 8) {
+                return `<span class="highlight">${word}</span>`;
+            }
+            return word;
+        });
+        paragraph.innerHTML = words.join(' ');
+
+        const sourceLink = document.createElement('a');
+        sourceLink.href = "https://google.com/";
+        sourceLink.innerText = "Link to Source";
+        document.body.appendChild(sourceLink);
+
+        const sentences = paragraph.innerHTML.split('. ').join('.<br>');
+        paragraph.innerHTML = sentences;
+
+        const wordCount = text.trim().split(/\s+/).length;
+        wordCountDiv.innerText = `Word Count: ${wordCount}`;
+    </script>
+</body>
+</html>
